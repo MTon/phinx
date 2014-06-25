@@ -15,9 +15,9 @@ Let's start by creating a new Phinx migration. Run Phinx using the
 ``create`` command.
 
 .. code-block:: bash
-    
+
         $ phinx create MyNewMigration
-        
+
 This will create a new migration in the format
 ``YYYYMMDDHHMMSS_my_new_migration.php`` where the first 14 characters are
 replaced with the current timestamp down to the second.
@@ -25,7 +25,7 @@ replaced with the current timestamp down to the second.
 Phinx automatically creates a skeleton migration file with two empty methods.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -37,7 +37,7 @@ Phinx automatically creates a skeleton migration file with two empty methods.
              */
             public function up()
             {
-            
+
             }
 
             /**
@@ -81,7 +81,7 @@ migration you must declare a ``change`` method in your migration file. For
 example:
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -99,13 +99,13 @@ example:
                       ->addColumn('created', 'datetime')
                       ->create();
             }
-    
+
             /**
              * Migrate Up.
              */
             public function up()
             {
-    
+
             }
 
             /**
@@ -139,7 +139,7 @@ Phinx can only reverse the following commands:
 -  addIndex
 -  addForeignKey
 
-If a command cannot be reversed then Phinx will throw a 
+If a command cannot be reversed then Phinx will throw a
 ``IrreversibleMigrationException`` exception when it's migrating down.
 
 Executing Queries
@@ -150,7 +150,7 @@ Queries can be executed with the ``execute()`` and ``query()`` methods. The
 ``query()`` method returns the result as an array.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -177,7 +177,7 @@ Queries can be executed with the ``execute()`` and ``query()`` methods. The
 
             }
         }
-        
+
 Fetching Rows
 -------------
 
@@ -186,7 +186,7 @@ fetch a single row, whilst the ``fetchAll()`` method will return multiple rows.
 Both methods accept raw SQL as their only parameter.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -226,7 +226,7 @@ instance of the Table object by calling the ``table()`` method from within
 your database migration.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -249,7 +249,7 @@ your database migration.
 
             }
         }
-        
+
 You can then manipulate this table using the methods provided by the Table
 object.
 
@@ -260,7 +260,7 @@ Creating a table is really easy using the Table object. Let's create a table to
 store a collection of users.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -293,7 +293,7 @@ store a collection of users.
 
             }
         }
-        
+
 Columns are added using the ``addColumn()`` method. We create a unique index
 for both the username and email columns using the ``addIndex()`` method.
 Finally calling ``save()`` commits the changes to the database.
@@ -308,7 +308,7 @@ when accessing the Table object. Let's disable the automatic ``id`` column and
 create a primary key using two columns instead:
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -340,7 +340,7 @@ Setting a single ``primary_key`` doesn't enable the ``AUTO_INCREMENT`` option.
 To do this, we need to override the default ``id`` field name:
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -367,11 +367,11 @@ To do this, we need to override the default ``id`` field name:
 
             }
         }
-        
+
 Valid Column Types
 ~~~~~~~~~~~~~~~~~~
 
-Column types are specified as strings and can be one of: 
+Column types are specified as strings and can be one of:
 
 -  string
 -  text
@@ -396,7 +396,7 @@ You can determine whether or not a table exists by using the ``hasTable()``
 method.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -430,7 +430,7 @@ Tables can be dropped quite easily using the ``dropTable()`` method. It is a
 good idea to recreate the table again in the ``down()`` method.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -463,7 +463,7 @@ good idea to recreate the table again in the ``down()`` method.
                       ->save();
             }
         }
-        
+
 Renaming a Table
 ~~~~~~~~~~~~~~~~
 
@@ -471,7 +471,7 @@ To rename a table access an instance of the Table object then call the
 ``rename()`` method.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -507,7 +507,7 @@ To rename a column access an instance of the Table object then call the
 ``renameColumn()`` method.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -646,7 +646,7 @@ unique index.
 
             }
         }
-        
+
 Removing indexes is as easy as calling the ``removeIndex()`` method. You must
 call this method for each index.
 
@@ -678,7 +678,7 @@ call this method for each index.
 
 .. note::
 
-    There is no need to call the ``save()`` method when using 
+    There is no need to call the ``save()`` method when using
     ``removeIndex()``. The index will be removed immediately.
 
 Working With Foreign Keys
@@ -688,7 +688,7 @@ Phinx has support for creating foreign key constraints on your database tables.
 Let's add a foreign key to an example table:
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -703,12 +703,12 @@ Let's add a foreign key to an example table:
                 $table = $this->table('tags');
                 $table->addColumn('tag_name', 'string')
                       ->save();
-        
+
                 $refTable = $this->table('tag_relationships');
                 $refTable->addColumn('tag_id', 'integer')
                          ->addForeignKey('tag_id', 'tags', 'id', array('delete'=> 'SET_NULL', update=> 'NO_ACTION'))
                          ->save();
-                
+
             }
 
             /**
@@ -725,7 +725,7 @@ Let's add a foreign key to an example table:
 We can also easily check if a foreign key exists:
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -756,7 +756,7 @@ We can also easily check if a foreign key exists:
 Finally to delete a foreign key use the ``dropForeignKey`` method.
 
 .. code-block:: php
-        
+
         <?php
 
         use Phinx\Migration\AbstractMigration;
@@ -807,3 +807,53 @@ pending changes cache.
 
 When in doubt it is recommended you call this method. It will commit any
 pending changes to the database.
+
+Writing Messages To The Commandline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use [\Symfony\Component\Console\Output\OutputInterface](http://api.symfony.com/2.5/Symfony/Component/Console/Formatter/OutputFormatterInterface.html) to
+print messages on the commandline.
+
+You got the following helper functions for this:
+
+- ``getOutput()` returns the Symfony\Component\Console\Output\OutputInterface
+- ``write($message)`` writes the message to the commandline without linebreak
+- ``line($message)`` writes the message to the commandline with a linebreak
+- ``info($message)`` writes the message to the commandline with a linebreak, formatted as <info>
+- ``question($message)`` writes the message to the commandline with a linebreak, formatted as <question>
+- ``comment($message)`` writes the message to the commandline with a linebreak, formatted as <comment>
+- ``error($message)`` writes the message to the commandline with a linebreak, formatted as <error>
+
+
+For example:
+
+.. code-block:: php
+
+        <?php
+
+        use Phinx\Migration\AbstractMigration;
+
+        class MyNewMigration extends AbstractMigration
+        {
+            /**
+             * Migrate Up.
+             */
+            public function up()
+            {
+                $table = $this->table('tag_relationships');
+                $table->dropForeignKey('tag_id');
+
+                $this->info('[INFO] Foreign Key tag_id dropped!');
+            }
+
+            /**
+             * Migrate Down.
+             */
+            public function down()
+            {
+
+            }
+        }
+
+will print this on the commandline ``[INFO] Foreign Key tag_id dropped!``
+

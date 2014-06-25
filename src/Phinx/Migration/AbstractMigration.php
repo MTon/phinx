@@ -213,14 +213,25 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
+     * Get the OutputInterface to use all it's possibilities inside the migration
+     * @return OutputInterface
+     */
+    public function getOutput()
+    {
+        return $this->getOutput();
+    }
+
+    /**
      * Write message to the commandline without a linebreak.
      * Uses Symfony\Component\Console\Output\OutputInterface.
      *
      * @param string $message
+     * @return $this
      */
     public function write($message)
     {
         $this->output->write($message);
+        return $this;
     }
 
     /**
@@ -228,10 +239,12 @@ abstract class AbstractMigration implements MigrationInterface
      * Uses Symfony\Component\Console\Output\OutputInterface.
      *
      * @param string $message
+     * @return $this
      */
     public function line($message)
     {
         $this->output->writeln($message);
+        return $this;
     }
 
     /**
@@ -239,11 +252,13 @@ abstract class AbstractMigration implements MigrationInterface
      * Uses Symfony\Component\Console\Output\OutputInterface.
      *
      * @param string $message
+     * @return $this
      */
     public function info($message)
     {
         $message = '<info>'.$message.'</info>';
         $this->line($message);
+        return $this;
     }
 
     /**
@@ -251,11 +266,13 @@ abstract class AbstractMigration implements MigrationInterface
      * Uses Symfony\Component\Console\Output\OutputInterface.
      *
      * @param string $message
+     * @return $this
      */
     public function comment($message)
     {
         $message = '<comment>'.$message.'</comment>';
         $this->line($message);
+        return $this;
     }
 
     /**
@@ -263,11 +280,13 @@ abstract class AbstractMigration implements MigrationInterface
      * Uses Symfony\Component\Console\Output\OutputInterface.
      *
      * @param string $message
+     * @return $this
      */
     public function question($message)
     {
         $message = '<question>'.$message.'</question>';
         $this->line($message);
+        return $this;
     }
 
     /**
@@ -275,10 +294,12 @@ abstract class AbstractMigration implements MigrationInterface
      * Uses Symfony\Component\Console\Output\OutputInterface.
      *
      * @param string $message
+     * @return $this
      */
     public function error($message)
     {
         $message = '<error>'.$message.'</error>';
         $this->line($message);
+        return $this;
     }
 }
